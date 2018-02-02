@@ -1,23 +1,21 @@
 import React, { Component } from 'react';
-const logo = require("./logo.svg");
+const logo = require("../logo.svg");
 import { Image, StyleSheet, Text, View, Animated, Easing } from 'react-native';
 
-// see https://github.com/necolas/react-native-web
-
-
-const blah: string = 1;
+import Body from './bodyType';
 
 class App extends Component {
 
-  val = 0;
-  spinValue = new Animated.Value(this.val);
+  spinValue = new Animated.Value(0);
+  
   spinAmount = this.spinValue.interpolate({
     inputRange: [0, 1],
     outputRange: ['0deg', '120deg']
   });
+
   scalePulse = this.spinValue.interpolate({
-    inputRange: [0, 0.25, 0.5, 0.75, 1],
-    outputRange: [1, 1.1, 1, 0.9, 1]
+    inputRange:  [0, 0.25, 0.5, 0.75, 1],
+    outputRange: [1, 1.1,  1,   0.9,  1]
   });
 
   componentDidMount() {
@@ -57,9 +55,9 @@ class App extends Component {
           />
           <Text style={styles.title}>Welcome to React Native Web!</Text>
         </View>
-        <Text style={styles.intro}>
-          Booyah.
-        </Text>
+        
+        <Body foo='blah' bar={1} />
+        
       </View>
     );
   }
