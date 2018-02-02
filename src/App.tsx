@@ -13,11 +13,11 @@ class App extends Component {
   spinValue = new Animated.Value(this.val);
   spinAmount = this.spinValue.interpolate({
     inputRange: [0, 1],
-    outputRange: ['0deg', '360deg']
+    outputRange: ['0deg', '120deg']
   });
   scalePulse = this.spinValue.interpolate({
-    inputRange: [0, 0.2, 0.4, 0.6, 0.8, 1],
-    outputRange: [1, 1.25, 1, 1.5, 1, 1.25]
+    inputRange: [0, 0.25, 0.5, 0.75, 1],
+    outputRange: [1, 1.1, 1, 0.9, 1]
   });
 
   componentDidMount() {
@@ -30,8 +30,9 @@ class App extends Component {
       this.spinValue,
       {
         toValue: 1,
-        duration: 4000,
-        easing: Easing.linear
+        duration: 1000,
+        delay: 1000,
+        easing: Easing.inOut(Easing.back(3)),
       }
     ).start(() => this.spin())
   }

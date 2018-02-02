@@ -84,7 +84,7 @@ module.exports = {
     // https://github.com/facebookincubator/create-react-app/issues/290
     // `web` extension prefixes have been added for better support
     // for React Native Web.
-    extensions: ['.ts', '.tsx', '.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx'],
+    extensions: ['.ts', '.tsx', '.web.ts', '.web.tsx', '.js', '.jsx', '.web.js', '.web.jsx', '.mjs', '.json'],
     alias: {
 
       // Support React Native Web
