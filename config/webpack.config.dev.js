@@ -106,6 +106,12 @@ module.exports = {
       // TODO: Disable require.ensure as it's not a standard language feature.
       // We are waiting for https://github.com/facebookincubator/create-react-app/issues/2176.
       // { parser: { requireEnsure: false } },
+      
+      // Strip out mobile files since we're using "import both" for TS
+      { 
+        test: /\.ios|android|native\.tsx?/,
+        loader: require.resolve('ignore-loader')
+      },
 
       {
         test: /\.tsx?$/,
@@ -129,6 +135,7 @@ module.exports = {
         ],
         include: paths.appSrc,
       },
+
       {
         // "oneOf" will traverse all following loaders until one will
         // match the requirements. When no loader matches it will fall
@@ -145,6 +152,7 @@ module.exports = {
               name: 'static/media/[name].[hash:8].[ext]',
             },
           },
+         
           // Process JS with Babel.
           {
             test: /\.(js|jsx|mjs)$/,
@@ -158,6 +166,7 @@ module.exports = {
               cacheDirectory: true,
             },
           },
+
           // "postcss" loader applies autoprefixer to our CSS.
           // "css" loader resolves paths in CSS and adds assets as dependencies.
           // "style" loader turns CSS into JS modules that inject <style> tags.
@@ -244,13 +253,7 @@ module.exports = {
     // makes the discovery automatic so you don't have to restart.
     // See https://github.com/facebookincubator/create-react-app/issues/186
     new WatchMissingNodeModulesPlugin(paths.appNodeModules),
-    // Moment.js is an extremely popular library that bundles large locale files
-    // by default due to how Webpack interprets its code. This is a practical
-    // solution that requires the user to opt into importing specific locales.
-    // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
-    // You can remove this if you don't use Moment.js:
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-
+    
     new CheckerPlugin(),
   ],
   // Some libraries import Node modules but don't use them in the browser.

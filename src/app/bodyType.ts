@@ -1,6 +1,6 @@
 import { Component } from "react";
 
-export interface IBodyProps extends Component {
-  foo: string;
-  bar: number;
+export interface IBodyProps {
+  foo?: string;
+  bar?: number;
 }
