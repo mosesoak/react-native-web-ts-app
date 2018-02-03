@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 const logo = require("../logo.svg");
 import { Image, StyleSheet, Text, View, Animated, Easing } from 'react-native';
 
+// TS won't let us use this voodoo...
 // import Body from './body';
 
-// A TS import style that would retain type information but requires stripping out native files in webpack
+// So we import both files and then strip out the unwanted ones using Webpack during compile
 import BodyIOS from './body.ios';
 import BodyWeb from './body.web';
 const Body = BodyWeb || BodyIOS;
