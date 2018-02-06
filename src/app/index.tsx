@@ -1,14 +1,7 @@
 import React, { Component } from 'react';
 const logo = require("../logo.svg");
 import { Image, StyleSheet, Text, View, Animated, Easing } from 'react-native';
-
-// TS won't let us use this voodoo...
-// import Body from './body';
-
-// So we import both files and then strip out the unwanted ones using Webpack during compile
-import BodyIOS from './body.ios';
-import BodyWeb from './body.web';
-const Body = BodyWeb || BodyIOS;
+import Split from './components/split';
 
 class App extends Component {
 
@@ -62,7 +55,7 @@ class App extends Component {
           <Text style={styles.title}>Welcome to React Native Web!</Text>
         </View>
         
-        <Body foo='blah' bar={1} />
+        <Split foo='blah' bar={1} />
         
       </View>
     );

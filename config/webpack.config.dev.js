@@ -106,12 +106,6 @@ module.exports = {
       // TODO: Disable require.ensure as it's not a standard language feature.
       // We are waiting for https://github.com/facebookincubator/create-react-app/issues/2176.
       // { parser: { requireEnsure: false } },
-      
-      // Strip out mobile files since we're using "import both" for TS
-      { 
-        test: /\.ios|android|native\.tsx?/,
-        loader: require.resolve('ignore-loader')
-      },
 
       {
         test: /\.tsx?$/,
