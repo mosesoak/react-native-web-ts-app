@@ -4,16 +4,13 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 This is kind of ugly and isn't a full solution in the sense that it doesn't keep the file-splitting magic under the hood, but it seems to work!
 
-The technique is "import both, then strip the native files":
+Breaking components into versions by extension is not yet supported with Typescript. :scream:
 
-```javascript
-// TS won't let us use this voodoo...
-// import Body from './body';
+I've gotten it to work (in that the right version is picked during compilation while others are excluded) but it requires a somewhat ugly import/export process, modeled by the files in this folder.
 
-// So we import both files and then strip out the unwanted ones using Webpack during compile
-import BodyIOS from './body.ios';
-import BodyWeb from './body.web';
-const Body = BodyWeb || BodyIOS;
-```
+Details:
 
-I haven't figured out how to do this on the mobile side yet
+* The component is provided per platform `Split.web.tsx` and `Split.native.tsx` (native can be further split into `.ios.tsx` and `.android.tsx`)
+* These each share typing information broken out into `split-types.d.ts`
+* `js-index.js` imports and reexports the component without any extension, e.g. `from './Split` (_not_ `./Split.web`)
+* `index.tsx` imports the component from that file, plus the types, and then reexports it cast to its correct interface
