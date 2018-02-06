@@ -1,19 +1,28 @@
-## React Native Web + Typescript
+## React Native Web + Typescript + Platform-specific File Extensions
 
-This is kind of ugly and isn't a full solution in the sense that it doesn't keep the file-splitting magic under the hood, but it seems to work!
+Writing a hybrid native & web app has gotten much easier thanks to [react-native-web](https://github.com/necolas/react-native-web).
 
-I have tested this in a separate native app not included in this repo. The projects compile and run correctly and typescript provides correct type hinting on the JSX node.
+It is also now much easier to set up the project to use Typescript thanks to [react-native-typescript-transformer](https://github.com/ds300/react-native-typescript-transformer).
 
-Breaking components into versions by extension is not yet supported with Typescript. :scream:
+## Problem
 
-I've gotten it to work (in that the right version is picked during compilation while others are excluded) but it requires a somewhat ugly import/export process, modeled by the files in this folder.
+However, one key piece of React Native functionality doesn't work with Typescript: platform-specific file extensions like:
 
-Details:
+* `MyComponent.web.tsx`
+* `MyComponent.ios.tsx`
+* `MyComponent.android.tsx`
 
-* The component is provided per platform `Split.web.tsx` and `Split.native.tsx` (native can be further split into `.ios.tsx` and `.android.tsx`)
-* These each share typing information broken out into `split-types.d.ts`
-* `js-index.js` imports and reexports the component without any extension, e.g. `from './Split` (_not_ `./Split.web`)
-* `index.tsx` imports the component from that file, plus the types, and then reexports it cast to its correct interface
+using a magic import like `import MyComponent from './MyComponent';`
 
+Typescript is confused because:
+* it currently expects a concrete code path based on real imports to be able to follow in order to perform its typechecking...
+* even if it handled the magic imports it still wouldn't know which files to follow since they all live side by side in the code base...
+* most accurately the inferred type would be a `union` of all of the component files...
 
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
+The ideal solution would be an npm module extending Tyepscript to be able to do all of this automagically.
+
+## Manual Workaround: .js shim file
+
+In the short term I've figured out that it's possible to use the platform extension feature with Typescript, albeit involved and not ideal. The directory structure can be seen in this repo in [the example 'Split' component](https://github.com/mosesoak/react-native-web-ts-app/tree/master/src/app/components/split) located in `src/components/split` which contains its own docs.
+
+The general idea is that you do an import/export in a shim .js file which allows React Native Web to perform its magic at build time, then make an index.tsx file that imports from the shim and casts to a shared component type that's been broken out into a `.d.ts` file.

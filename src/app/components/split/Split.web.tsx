@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { ISplitProps } from './split-types';
 
-class Split extends React.Component<ISplitProps> {
+class Split extends React.Component<ISplitProps, any> {
   render() {
     return (
       <View>

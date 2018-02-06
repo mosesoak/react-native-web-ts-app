@@ -1,4 +1,5 @@
-// Rigs React-Native-Web file splitting to work with TS by re-casting the class loaded by the .js file
+// Rigs React-Native-Web file splitting to work with TS by casting to the shared interface.
+// (Note: require() syntax does not work with the RN bundler)
 
 import Split from './js-index';
 import { ISplitProps } from './split-types';
