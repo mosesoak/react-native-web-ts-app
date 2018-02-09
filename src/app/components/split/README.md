@@ -12,4 +12,20 @@ Follow these practice:
 
 The `.d.ts` file enables VS Code code hinting for JSX props, and helps manage the project cross-platform by ensuring the consumers of the component have a unified interface.
 
-When developing for native, be mindful that Go To Definition will jump to the web file, since the typescript plugin is not designed to know about the special extensions.
+---
+
+Caution:
+
+Beware auto-imports! It's easy to accidentally import a file like this:
+
+```js
+import Split from './components/split/index.android';
+```
+
+instead of the correct generic way:
+
+```js
+import Split from './components/split';
+```
+
+Also, when working on the native app, be mindful that VS Code's `Go To Definition` will always jump to the `index.tsx` (web) file.
