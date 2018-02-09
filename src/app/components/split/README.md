@@ -1,15 +1,15 @@
-## RNW + TS platform-specific file extension workaround
+## React Native Web platform-specific extensions + Typescript
 
-Breaking components into versions by extension is not yet supported with Typescript. I've gotten it to work (in that the right version is picked during compilation while others are excluded) but it requires a somewhat ugly import/export process, modeled by the files in this folder.
+React Native and React Native Web provide magic platform-splitting functionality based on special file extensions. Just the component for the target platform is compiled at build time.
 
-1. The shared type for the split component is broken out into a `.d.ts` file so that type information can be imported without directly importing platform-specific component files:
+Follow these practice:
 
-- `split-types.d.ts`
-- `Split.web.tsx`
-- `Split.native.tsx`
-  - (could be further split into `.ios.tsx` & `.android.tsx`)
+* Put the component in a folder
+* Break out the shared interface into a separate `.d.ts` file.
+* Name the web/default file `index.tsx` (not `index.web.tsx`)
+* Name the native file `index.native.tsx`
+* For android splitting, add `index.android.tsx` which will override `.native`
 
-2. Two files are used to do the import, a js shim that allows the RNW magic import to take place without Typescript trying to follow it, then an `index.tsx` file that manually casts the resulting import to the shared type.
+The `.d.ts` file enables VS Code code hinting for JSX props, and helps manage the project cross-platform by ensuring the consumers of the component have a unified interface.
 
-- `index.tsx`
-- `js-index.js`
+When developing for native, be mindful that Go To Definition will jump to the web file, since the typescript plugin is not designed to know about the special extensions.
